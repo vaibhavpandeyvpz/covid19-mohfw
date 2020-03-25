@@ -32,7 +32,19 @@ app.use(cors());
 app.use(json());
 
 app.use(async ctx => {
-    ctx.body = await db.get('counts')
+    let counts;
+    try {
+        counts = await db.get('counts');
+    } catch (ignore) {
+    }
+    if (!counts) {
+        try {
+            counts = await mohfw();
+            await db.put('counts', counts)
+        } catch (ignore) {
+        }
+    }
+    ctx.body = counts
 });
 
 app.listen(process.env.PORT || 3000);
