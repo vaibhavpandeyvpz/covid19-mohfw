@@ -86,9 +86,8 @@
                                 <div className="media">
                                     <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
                                     <div className="media-body">
-                                        <h5 className="mt-0">CASES</h5>
-                                        <p className="lead mb-0">{totals.cases_domestic}</p>
-                                        <span className="text-black-50">domestic</span>
+                                        <p className="lead mb-0">{totals.cases_domestic} <small className="text-black-50">of</small> {totals.cases_domestic + totals.cases_international}</p>
+                                        <span className="text-black-50">citizens</span>
                                     </div>
                                 </div>
                             </div>
@@ -100,9 +99,8 @@
                                 <div className="media">
                                     <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
                                     <div className="media-body">
-                                        <h5 className="mt-0">CASES</h5>
-                                        <p className="lead mb-0">{totals.cases_international}</p>
-                                        <span className="text-black-50">international</span>
+                                        <p className="lead mb-0">{totals.cases_international} <small className="text-black-50">of</small> {totals.cases_domestic + totals.cases_international}</p>
+                                        <span className="text-black-50">nri / intl.</span>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +112,6 @@
                                 <div className="media">
                                     <i className="far fa-laugh-beam fa-3x text-white-50 mr-3" />
                                     <div className="media-body">
-                                        <h5 className="mt-0">RECOVERIES</h5>
                                         <p className="lead mb-0">{totals.recoveries}</p>
                                         <span className="text-white-50">discharged</span>
                                     </div>
@@ -128,9 +125,8 @@
                                 <div className="media">
                                     <i className="far fa-sad-cry fa-3x text-white-50 mr-3" />
                                     <div className="media-body">
-                                        <h5 className="mt-0">DEATHS</h5>
                                         <p className="lead mb-0">{totals.deaths}</p>
-                                        <span className="text-white-50">deceased</span>
+                                        <span className="text-white-50">deaths</span>
                                     </div>
                                 </div>
                             </div>
@@ -152,10 +148,10 @@
                         {states.map(x => (
                             <tr>
                                 <th className="bg-light" scope="row">{x.state}</th>
-                                <td className={x.cases_domestic > 0 ? 'table-warning text-warning' : ''}>{x.cases_domestic}</td>
-                                <td className={x.cases_international > 0 ? 'table-warning text-warning' : ''}>{x.cases_international}</td>
-                                <td className={x.recoveries > 0 ? 'table-success text-success' : ''}>{x.recoveries}</td>
-                                <td className={x.deaths > 0 ? 'table-danger text-danger' : ''}>{x.deaths}</td>
+                                <td className={x.cases_domestic > 0 ? 'table-warning text-black-50' : ''}>{x.cases_domestic}</td>
+                                <td className={x.cases_international > 0 ? 'table-warning text-black-50' : ''}>{x.cases_international}</td>
+                                <td className={x.recoveries > 0 ? 'table-success text-black-50' : ''}>{x.recoveries}</td>
+                                <td className={x.deaths > 0 ? 'table-danger text-black-50' : ''}>{x.deaths}</td>
                             </tr>
                         ))}
                         </tbody>
