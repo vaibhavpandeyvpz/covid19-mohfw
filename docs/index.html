@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>COVID-19 - India | Vaibhav Pandey (VPZ)</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Roboto Slab", serif;
+        }
+        table {
+            white-space: nowrap;
+        }
+        .w-20 {
+            width: 20%;
+        }
+    </style>
+</head>
+<body>
+<main id="root">
+    <div class="container text-center my-3 my-md-4 my-lg-5">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading&hellip;</span>
+        </div>
+    </div>
+</main>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7/prop-types.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/axios@0.19.2/dist/axios.min.js"></script>
+<script type="text/babel">
+    const Loading = () => (
+        <div className="container text-center my-3 my-md-4 my-lg-5">
+            <div className="spinner-border" role="status">
+                <span className="sr-only">Loading&hellip;</span>
+            </div>
+        </div>
+    )
+</script>
+<script type="text/babel">
+    const Error = ({ onRetry }) => {
+        const handleRetry = e => {
+            e.preventDefault();
+            onRetry();
+        };
+        return (
+            <div className="container my-3 my-md-4 my-lg-5">
+                <div className="alert alert-danger">
+                    <i className="fas fa-exclamation-triangle mr-1"/>
+                    {' '}
+                    There was some error in getting updates from remote API.
+                    {' '}
+                    <a className="alert-link" href="" onClick={handleRetry}>Retry?</a>
+                </div>
+            </div>
+        )
+    };
+
+    Error.propTypes = {
+        onRetry: PropTypes.func.isRequired,
+    }
+</script>
+<script type="text/babel">
+    const Cases = ({ data: { states, totals } }) => (
+        <div>
+            <div className="container">
+                <nav className="navbar navbar-expand navbar-light px-0">
+                    <a className="navbar-brand" href="">COVID-19 - India</a>
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <a className="nav-link" href="https://covid19-mohfw.herokuapp.com/" target="_blank">API</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div className="row mb-3">
+                    <div className="col-sm-6 col-lg-3">
+                        <div className="card bg-warning text-dark mb-3 mb-lg-0" role="alert">
+                            <div className="card-body">
+                                <div className="media">
+                                    <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
+                                    <div className="media-body">
+                                        <h5 className="mt-0">CASES</h5>
+                                        <p className="lead mb-0">{totals.cases_domestic}</p>
+                                        <span className="text-black-50">domestic</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <div className="card bg-warning text-dark mb-3 mb-lg-0" role="alert">
+                            <div className="card-body">
+                                <div className="media">
+                                    <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
+                                    <div className="media-body">
+                                        <h5 className="mt-0">CASES</h5>
+                                        <p className="lead mb-0">{totals.cases_international}</p>
+                                        <span className="text-black-50">international</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <div className="card bg-success text-white mb-3 mb-sm-0" role="alert">
+                            <div className="card-body">
+                                <div className="media">
+                                    <i className="far fa-laugh-beam fa-3x text-white-50 mr-3" />
+                                    <div className="media-body">
+                                        <h5 className="mt-0">RECOVERIES</h5>
+                                        <p className="lead mb-0">{totals.recoveries}</p>
+                                        <span className="text-white-50">discharged</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-6 col-lg-3">
+                        <div className="card bg-danger text-white" role="alert">
+                            <div className="card-body">
+                                <div className="media">
+                                    <i className="far fa-sad-cry fa-3x text-white-50 mr-3" />
+                                    <div className="media-body">
+                                        <h5 className="mt-0">DEATHS</h5>
+                                        <p className="lead mb-0">{totals.deaths}</p>
+                                        <span className="text-white-50">deceased</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="table-responsive">
+                    <table className="table table-borderless table-hover">
+                        <thead className="thead-dark">
+                        <tr>
+                            <th className="w-20">State</th>
+                            <th className="w-20">Cases (Domestic)</th>
+                            <th className="w-20">Cases (International)</th>
+                            <th className="w-20">Recoveries</th>
+                            <th className="w-20">Deaths</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {states.map(x => (
+                            <tr>
+                                <th className="bg-light" scope="row">{x.state}</th>
+                                <td className={x.cases_domestic > 0 ? 'table-warning text-warning' : ''}>{x.cases_domestic}</td>
+                                <td className={x.cases_international > 0 ? 'table-warning text-warning' : ''}>{x.cases_international}</td>
+                                <td className={x.recoveries > 0 ? 'table-success text-success' : ''}>{x.recoveries}</td>
+                                <td className={x.deaths > 0 ? 'table-danger text-danger' : ''}>{x.deaths}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+                <footer className="mb-3">
+                    <p className="mb-0">
+                        Created by <a href="https://vaibhavpandey.com/" rel="nofollow">Vaibhav Pandey</a>.
+                        I hope everybody is safe staying home and we end this deadly outbreak together by co-operating our government in following issued guidelines.
+                    </p>
+                    <hr />
+                    <p>
+                        <a href="https://github.com/vaibhavpandeyvpz/covid19-mohfw/tree/master/docs" rel="nofollow" target="_blank">Source Code</a>
+                        {' - '}
+                        <a href="https://github.com/vaibhavpandeyvpz/covid19-mohfw" rel="nofollow" target="_blank">API</a>
+                        {' - '}
+                        <a href="https://www.mohfw.gov.in/" rel="nofollow" target="_blank">Data (MOHFW)</a>
+                    </p>
+                </footer>
+            </div>
+        </div>
+    );
+
+    Cases.propTypes = {
+        data: PropTypes.object.isRequired,
+    }
+</script>
+<script type="text/babel">
+    const { useEffect, useState } = React;
+
+    const Covid19 = () => {
+        const [data, setData] = useState(null);
+        const [error, setError] = useState(false);
+        const [loading, setLoading] = useState(true);
+        const update = () => {
+            setError(false);
+            setLoading(true);
+            axios.get('https://covid19-mohfw.herokuapp.com/')
+                .then(({ data }) => {
+                    setData(data)
+                })
+                .catch(() => {
+                    setError(true)
+                })
+                .then(() => {
+                    setLoading(false)
+                })
+        };
+        useEffect(() => {
+            update();
+            const timer = setInterval(() => update(), 15 * 60 * 1000);
+            return () => clearInterval(timer)
+        }, []);
+        if (loading) {
+            return <Loading />
+        }
+        if (error) {
+            return <Error onRetry={update} />
+        }
+        return <Cases data={data} />
+    }
+</script>
+<script type="text/babel">
+    ReactDOM.render(<Covid19 />, document.getElementById('root'))
+</script>
+</body>
+</html>
