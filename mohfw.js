@@ -14,18 +14,16 @@ module.exports = async () => {
         const $ = cheerio.load(response.data);
         $('#cases .table > tbody > tr').each((i, el) => {
             const cells = $(el).find('td');
-            if (cells.length !== 6) {
+            if (cells.length !== 5) {
                 return
             }
             const state = $(cells[1]).text().trim();
             const cases_domestic = $(cells[2]).text().trim();
-            const cases_international = $(cells[3]).text().trim();
-            const recoveries = $(cells[4]).text().trim();
-            const deaths = $(cells[5]).text().trim();
+            const recoveries = $(cells[3]).text().trim();
+            const deaths = $(cells[4]).text().trim();
             states.push({
                 state,
-                cases_domestic: parseInt(cases_domestic),
-                cases_international: parseInt(cases_international),
+                cases: parseInt(cases_domestic),
                 recoveries: parseInt(recoveries),
                 deaths: parseInt(deaths),
             })
@@ -41,14 +39,12 @@ module.exports = async () => {
             return 0
         });
         const totals = {
-            cases_domestic: 0,
-            cases_international: 0,
+            cases: 0,
             recoveries: 0,
             deaths: 0,
         };
         states.forEach(x => {
-            totals.cases_domestic += x.cases_domestic;
-            totals.cases_international += x.cases_international;
+            totals.cases += x.cases;
             totals.recoveries += x.recoveries;
             totals.deaths += x.deaths
         });

@@ -86,8 +86,8 @@
                                 <div className="media">
                                     <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
                                     <div className="media-body">
-                                        <p className="lead mb-0">{totals.cases_domestic} <small className="text-black-50">of</small> {totals.cases_domestic + totals.cases_international}</p>
-                                        <span className="text-black-50">citizens</span>
+                                        <p className="lead mb-0">{totals.cases + totals.recoveries + totals.deaths}</p>
+                                        <span className="text-black-50">total cases</span>
                                     </div>
                                 </div>
                             </div>
@@ -99,8 +99,8 @@
                                 <div className="media">
                                     <i className="far fa-frown-open fa-3x text-black-50 mr-3" />
                                     <div className="media-body">
-                                        <p className="lead mb-0">{totals.cases_international} <small className="text-black-50">of</small> {totals.cases_domestic + totals.cases_international}</p>
-                                        <span className="text-black-50">nri / intl.</span>
+                                        <p className="lead mb-0">{totals.cases}</p>
+                                        <span className="text-black-50">active cases</span>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                     <i className="far fa-laugh-beam fa-3x text-white-50 mr-3" />
                                     <div className="media-body">
                                         <p className="lead mb-0">{totals.recoveries}</p>
-                                        <span className="text-white-50">discharged</span>
+                                        <span className="text-white-50">recovered</span>
                                     </div>
                                 </div>
                             </div>
@@ -137,19 +137,17 @@
                     <table className="table table-borderless table-hover">
                         <thead className="thead-dark">
                         <tr>
-                            <th className="w-20">State</th>
-                            <th className="w-20">Cases (Domestic)</th>
-                            <th className="w-20">Cases (International)</th>
-                            <th className="w-20">Recoveries</th>
-                            <th className="w-20">Deaths</th>
+                            <th className="w-25">State</th>
+                            <th className="w-25">Cases</th>
+                            <th className="w-25">Recoveries</th>
+                            <th className="w-25">Deaths</th>
                         </tr>
                         </thead>
                         <tbody>
                         {states.map(x => (
                             <tr>
                                 <th className="bg-light" scope="row">{x.state}</th>
-                                <td className={x.cases_domestic > 0 ? 'table-warning text-black-50' : ''}>{x.cases_domestic}</td>
-                                <td className={x.cases_international > 0 ? 'table-warning text-black-50' : ''}>{x.cases_international}</td>
+                                <td className={x.cases > 0 ? 'table-warning text-black-50' : ''}>{x.cases}</td>
                                 <td className={x.recoveries > 0 ? 'table-success text-black-50' : ''}>{x.recoveries}</td>
                                 <td className={x.deaths > 0 ? 'table-danger text-black-50' : ''}>{x.deaths}</td>
                             </tr>
