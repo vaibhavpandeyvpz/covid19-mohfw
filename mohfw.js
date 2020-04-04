@@ -12,18 +12,18 @@ module.exports = async () => {
     if (response && (response.status === 200)) {
         const states = [];
         const $ = cheerio.load(response.data);
-        $('#cases .table > tbody > tr').each((i, el) => {
+        $('#state-data .table > tbody > tr').each((i, el) => {
             const cells = $(el).find('td');
             if (cells.length !== 5) {
                 return
             }
             const state = $(cells[1]).text().trim();
-            const cases_domestic = $(cells[2]).text().trim();
+            const cases = $(cells[2]).text().trim();
             const recoveries = $(cells[3]).text().trim();
             const deaths = $(cells[4]).text().trim();
             states.push({
                 state,
-                cases: parseInt(cases_domestic),
+                cases: parseInt(cases),
                 recoveries: parseInt(recoveries),
                 deaths: parseInt(deaths),
             })
