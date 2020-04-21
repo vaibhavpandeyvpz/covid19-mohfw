@@ -21,12 +21,14 @@ module.exports = async () => {
             const cases = $(cells[2]).text().trim();
             const recoveries = $(cells[3]).text().trim();
             const deaths = $(cells[4]).text().trim();
-            states.push({
+            const datum = {
                 state,
-                cases: parseInt(cases),
+                total: parseInt(cases),
                 recoveries: parseInt(recoveries),
                 deaths: parseInt(deaths),
-            })
+            };
+            datum.cases = datum.total - (datum.recoveries + datum.deaths);
+            states.push(datum)
         });
         states.sort((a, b) => {
             const a2 = a.state.toLowerCase(),
@@ -39,11 +41,13 @@ module.exports = async () => {
             return 0
         });
         const totals = {
+            total: 0,
             cases: 0,
             recoveries: 0,
             deaths: 0,
         };
         states.forEach(x => {
+            totals.total += x.total;
             totals.cases += x.cases;
             totals.recoveries += x.recoveries;
             totals.deaths += x.deaths
