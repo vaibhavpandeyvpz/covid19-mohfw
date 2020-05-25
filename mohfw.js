@@ -12,9 +12,13 @@ module.exports = async () => {
     if (response && (response.status === 200)) {
         const states = [];
         const $ = cheerio.load(response.data);
-        $('#state-data .table > tbody > tr').each((i, el) => {
+        $('.data-table .table > tbody > tr').each((i, el) => {
             const cells = $(el).find('td');
             if (cells.length !== 5) {
+                return
+            }
+            const sno = $(cells[0]).text().trim();
+            if (!sno) {
                 return
             }
             const state = $(cells[1]).text().trim();
