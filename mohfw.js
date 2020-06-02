@@ -14,7 +14,7 @@ module.exports = async () => {
         const $ = cheerio.load(response.data);
         $('.data-table .table > tbody > tr').each((i, el) => {
             const cells = $(el).find('td');
-            if (cells.length !== 5) {
+            if (cells.length !== 6) {
                 return
             }
             const sno = $(cells[0]).text().trim();
@@ -25,13 +25,14 @@ module.exports = async () => {
             const cases = $(cells[2]).text().trim();
             const recoveries = $(cells[3]).text().trim();
             const deaths = $(cells[4]).text().trim();
+            const total = $(cells[5]).text().trim();
             const datum = {
                 state,
-                total: parseInt(cases),
+                cases: parseInt(cases),
                 recoveries: parseInt(recoveries),
                 deaths: parseInt(deaths),
+                total: parseInt(total),
             };
-            datum.cases = datum.total - (datum.recoveries + datum.deaths);
             states.push(datum)
         });
         states.sort((a, b) => {
@@ -45,16 +46,16 @@ module.exports = async () => {
             return 0
         });
         const totals = {
-            total: 0,
             cases: 0,
             recoveries: 0,
             deaths: 0,
+            total: 0,
         };
         states.forEach(x => {
-            totals.total += x.total;
             totals.cases += x.cases;
             totals.recoveries += x.recoveries;
-            totals.deaths += x.deaths
+            totals.deaths += x.deaths;
+            totals.total += x.total
         });
         return { states, totals }
     }
