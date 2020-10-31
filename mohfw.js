@@ -1,7 +1,6 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
 
-const URL = 'https://www.mohfw.gov.in/';
+const URL = 'https://www.mohfw.gov.in/data/datanew.json';
 
 module.exports = async () => {
     let response;
@@ -11,29 +10,14 @@ module.exports = async () => {
     }
     if (response && (response.status === 200)) {
         const states = [];
-        const $ = cheerio.load(response.data);
-        $('.data-table .table > tbody > tr').each((i, el) => {
-            const cells = $(el).find('td');
-            if (cells.length !== 6) {
-                return
-            }
-            const sno = $(cells[0]).text().trim();
-            if (!sno) {
-                return
-            }
-            const state = $(cells[1]).text().trim();
-            const cases = $(cells[2]).text().trim();
-            const recoveries = $(cells[3]).text().trim();
-            const deaths = $(cells[4]).text().trim();
-            const total = $(cells[5]).text().trim();
-            const datum = {
-                state,
-                cases: parseInt(cases),
-                recoveries: parseInt(recoveries),
-                deaths: parseInt(deaths),
-                total: parseInt(total),
-            };
-            states.push(datum)
+        response.data.forEach(metric => {
+            states.push({
+                state: metric.state_name,
+                cases: parseInt(metric.active),
+                recoveries: parseInt(metric.cured),
+                deaths: parseInt(metric.death),
+                total: parseInt(metric.positive)
+            })
         });
         states.sort((a, b) => {
             const a2 = a.state.toLowerCase(),

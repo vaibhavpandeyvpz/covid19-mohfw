@@ -8,9 +8,8 @@ coronavirus cases in India, scraped from the **homepage** of
 [Ministry of Health & Family Welfare](https://www.mohfw.gov.in/).
 
 The API is built on [Node.js](https://nodejs.org/en/) using [Koa](https://github.com/koajs/koa),
-[axios](https://github.com/axios/axios), [cheerio](https://github.com/cheeriojs/cheerio) and
-[LevelDB](https://github.com/Level/level). It is hosted on [Heroku](https://www.heroku.com/) cloud platform.
-The API database is updated automatically every 15 minutes.
+[axios](https://github.com/axios/axios) and [LevelDB](https://github.com/Level/level). It is hosted on
+[Heroku](https://www.heroku.com/) cloud platform. The API database is updated automatically every 15 minutes.
 
 ## Running Locally
 
