@@ -11,13 +11,15 @@ module.exports = async () => {
     if (response && (response.status === 200)) {
         const states = [];
         response.data.forEach(metric => {
-            states.push({
-                state: metric.state_name,
-                cases: parseInt(metric.active),
-                recoveries: parseInt(metric.cured),
-                deaths: parseInt(metric.death),
-                total: parseInt(metric.positive)
-            })
+            if (metric.state_name && metric.sno !== '11111') {
+                states.push({
+                    state: metric.state_name,
+                    cases: parseInt(metric.active),
+                    recoveries: parseInt(metric.cured),
+                    deaths: parseInt(metric.death),
+                    total: parseInt(metric.positive)
+                })
+            }
         });
         states.sort((a, b) => {
             const a2 = a.state.toLowerCase(),
